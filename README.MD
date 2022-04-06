@@ -19,4 +19,4 @@ cd ui
 yarn
 yarn start
 ```
-go to localhost:3000
+go to http://localhost:3000
