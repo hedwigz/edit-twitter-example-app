@@ -1,0 +1,30 @@
+{{- define "int/marshal" }}
+{{ $.resVarName }} := strconv.FormatInt(int64({{ $.varName }}), 10)
+{{- end}}
+
+{{- define "float64/marshal" }}
+{{ $.resVarName }} := strconv.FormatFloat(float64({{ $.varName }}), 'E', -1, 64)
+{{- end}}
+
+{{- define "string/marshal" }}
+{{ $.resVarName }} := {{ $.varName }}
+{{- end}}
+
+{{- define "bool/marshal" }}
+{{ $.resVarName }} := "false"
+if {{ $.varName }} {
+  {{ $.resVarName }} = "true"
+}
+{{- end}}
+
+{{- define "time/marshal" }}
+{{ $.resVarName }} := {{ $.varName }}.Format(time.RFC3339Nano)
+{{- end}}
+
+{{- define "json/marshal" }}
+  b, err := json.Marshal({{$.varName}})
+  if err != nil {
+    return nil, err
+  }
+  {{ $.resVarName }} := string(b)
+{{- end}}

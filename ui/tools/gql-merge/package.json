@@ -1,0 +1,25 @@
+{
+  "name": "gql-merge",
+  "version": "1.0.0",
+  "description": "gql-merge tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "schema": "ts-node-script index.ts",
+    "build": "npx tsc"
+  },
+  "bin": {
+    "gql-merge": "./bin/gql-merge"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@graphql-tools/schema": "^8.1.1",
+    "commander": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.6.1",
+    "ts-node": "^10.2.0",
+    "typescript": "^4.3.5"
+  }
+}

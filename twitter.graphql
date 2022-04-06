@@ -1,0 +1,80 @@
+# Maps a Time GraphQL scalar to a Go time.Time struct.
+scalar Time
+
+# Define an enumeration type and map it later to Ent enum (Go type).
+# https://graphql.org/learn/schema/#enumeration-types
+# enum Status {
+#     IN_PROGRESS
+#     COMPLETED
+# }
+
+interface Node {
+  id: ID!
+}
+
+type User implements Node {
+  id: ID!
+  name: String!
+  image_url: String
+  email: String!
+  created: Time!
+  age: Int!
+  Followers: [User]
+  Following: [User]
+}
+
+type Tweet implements Node {
+  id: ID!
+  created: Time!
+  content: String!
+  author: User!
+  history: [TweetEdit!]
+  likesCount: Int!
+  userLiked(id: ID!): Boolean!
+  likedUsers(
+    after: Cursor
+    first: Int
+    before: Cursor
+    last: Int
+    orderBy: TweetOrder
+  ): UserConnection
+}
+
+# https://graphql.org/learn/schema/#input-types
+input TweetInput {
+  content: String!
+}
+
+input TweetUpdateInput {
+  content: String
+}
+
+# https://graphql.org/learn/queries/#mutations
+type Mutation {
+  createTweet(tweet: TweetInput!): Tweet!
+  likeTweet(id: ID!): Tweet!
+  updateTweet(id: ID!, tweet: TweetUpdateInput!): Tweet!
+}
+
+type TweetEdit {
+  id: ID!
+  editedAt: Time!
+  editor: User!
+  diff: String!
+}
+
+type Query {
+  tweets: [Tweet!]
+  tweet(id: ID!): Tweet
+  me: User!
+  node(id: ID!): Node!
+  nodes(ids: [ID!]!): [Node]!
+  tweetsX(
+    after: Cursor
+    first: Int
+    before: Cursor
+    last: Int
+    orderBy: TweetOrder
+  ): TweetConnection
+  tweetEditHistory(id: ID!): [TweetEdit!]
+}

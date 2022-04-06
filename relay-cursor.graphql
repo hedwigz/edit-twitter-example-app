@@ -1,0 +1,47 @@
+# Define a Relay Cursor type:
+# https://relay.dev/graphql/connections.htm#sec-Cursor
+scalar Cursor
+
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: Cursor
+    endCursor: Cursor
+}
+
+type UserConnection {
+    totalCount: Int!
+    pageInfo: PageInfo!
+    edges: [UserEdge]
+}
+
+type UserEdge {
+    node: User
+    cursor: Cursor!
+}
+
+type TweetConnection {
+    totalCount: Int!
+    pageInfo: PageInfo!
+    edges: [TweetEdge]
+}
+
+type TweetEdge {
+    node: Tweet
+    cursor: Cursor!
+}
+
+# These enums are matched the entgql annotations in the ent/schema.
+enum TweetOrderField {
+    CREATED_AT
+}
+
+enum OrderDirection {
+    ASC
+    DESC
+}
+
+input TweetOrder {
+    direction: OrderDirection!
+    field: TweetOrderField
+}
